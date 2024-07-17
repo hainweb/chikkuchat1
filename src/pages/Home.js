@@ -14,30 +14,33 @@ const Home = () => {
   const location = useLocation()
 
   console.log('user',user)
-  const fetchUserDetails = async()=>{
-    try {
-        const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`
-        const response = await axios({
-          url : URL,
-          withCredentials : true
-        })
 
-        dispatch(setUser(response.data.data))
+  const fetchUserDetails = useCallback(async () => {
+  try {
+    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
+    const response = await axios({
+      url: URL,
+      withCredentials: true,
+    });
 
-        if(response.data.data.logout){
-            dispatch(logout())
-            navigate("/email")
-        }
-        console.log("current user Details",response)
-    } catch (error) {
-        console.log("error",error)
+    dispatch(setUser(response.data.data));
+
+    if (response.data.data.logout) {
+      dispatch(logout());
+      navigate("/email");
     }
+    console.log("current user Details", response);
+  } catch (error) {
+    console.log("error", error);
   }
+}, [dispatch, navigate]); // Add necessary dependencies
 
-  useEffect(() => {
-    fetchUserDetails();
-  }, [fetchUserDetails]); // Add fetchUserDetails to the dependency array
-  
+useEffect(() => {
+  fetchUserDetails();
+}, [fetchUserDetails]);
+
+
+ 
 
   /***socket connection */
   useEffect(()=>{
