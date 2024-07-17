@@ -34,9 +34,10 @@ const Home = () => {
     }
   }
 
-  useEffect(()=>{
-    fetchUserDetails()
-  },[])
+  useEffect(() => {
+    fetchUserDetails();
+  }, [fetchUserDetails]); // Add fetchUserDetails to the dependency array
+  
 
   /***socket connection */
   useEffect(()=>{
@@ -56,7 +57,7 @@ const Home = () => {
     return ()=>{
       socketConnection.disconnect()
     }
-  },[])
+  },[dispatch])  //include dispatch in missing array
 
 
   const basePath = location.pathname === '/'
